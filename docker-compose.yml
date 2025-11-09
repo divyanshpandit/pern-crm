@@ -1,0 +1,41 @@
+version: '3.8'
+services:
+  frontend:
+    build: ./frontend
+    container_name: crm_frontend
+    ports:
+      - "5173:80"
+    restart: always
+    depends_on:
+      - backend
+
+  backend:
+    build: ./backend
+    container_name: crm_backend
+    ports:
+      - "5000:5000"
+    restart: always
+    environment:
+      - JWT_SECRET=${JWT_SECRET}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - DB_HOST=db
+    depends_on:
+      - db
+
+  db:
+    image: postgres:16
+    container_name: crm_postgres_db_dev
+    restart: always
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
