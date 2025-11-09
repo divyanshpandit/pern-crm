@@ -1,0 +1,14 @@
+import { configureStore } from '@reduxjs/toolkit';
+import authReducer from '../features/auth/authSlice';
+import leadReducer from '../features/leads/leadSlice';
+import activityReducer from '../features/activities/activitySlice';
+import dashboardReducer from '../features/dashboard/dashboardSlice';
+
+export const store = configureStore({
+  reducer: {
+    auth: authReducer,
+    leads: leadReducer,
+    activities: activityReducer,
+    dashboard: dashboardReducer,
+  },
+});
